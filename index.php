@@ -32,7 +32,7 @@
     });
      
     // buat route untuk webhook
-    $app->post('/webhook', function ($request, $response) use ($bot, $httpClient)
+    $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature)
     {
         // get request body and line signature header
         $body      = file_get_contents('php://input');
@@ -41,7 +41,7 @@
         // log body and signature
         file_put_contents('php://stderr', 'Body: '.$body);
      
-        if($httpClient === false)
+        if($pass_signature === false)
         {
             // is LINE_SIGNATURE exists in request header?
             if(empty($signature)){

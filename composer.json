@@ -1,6 +1,6 @@
 {
     "name": "tanwir/jakulbot",
-    "description": "Simple line bot using php slim framework",
+    "description": "Informasi jadwal kuliah",
     "type": "project",
     "require": {
         "php": ">=5.6",
