@@ -63,7 +63,7 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        // $result = $bot->replyText($event['replyToken'], 'ini pesan balasan');
+                        // $result = $bot->replyText($event['replyToken'], 'ini pesan balasan'); sd
                         
                         // send same message as reply to user
                         // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
