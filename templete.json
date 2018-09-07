@@ -1,0 +1,56 @@
+{
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://scontent.cdninstagram.com/vp/3c6100959b8b302b5d549d5b7a8dfabd/5C0D1FBF/t51.2885-15/sh0.08/e35/s640x640/37629924_825187871202623_3854795657114025984_n.jpg",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover",
+      "action": {
+        "type": "uri",
+        "uri": "http://website.stmikbumigora.ac.id/"
+      }
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "MATKULBOT STMIK",
+          "weight": "bold",
+          "size": "xl"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "margin": "lg",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                 {
+                  "type": "text",
+                  "text": "HARI",
+                  "color": "#aaaaaa",
+                  "size": "sm",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "SENIN",
+                  "wrap": true,
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }

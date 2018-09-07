@@ -76,18 +76,21 @@
                     if($event['message']['type'] == 'text')
                     {
                          // ambil data matkul
-                                 // parameter hari,jurusan,jenjang,kelompok
+                        // parameter hari,jurusan,jenjang
 
                          $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".strtoupper($event['message']['text'])."'");
                          $matkuCount = pg_num_rows($queryMatkul);
 
+                         $Msg3 = "Masukan Jurusan ex:(RPL/MULTIMEDIA/JARINGAN/DKV) : ";
+                         $Msg4 = "Masukan Jenjang ex:(S1TI/D3TI/D3MI) : ";
+
                          if($matkuCount > 0){
                             $matku = pg_fetch_object($queryMatkul);
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($matku->matkul);
-                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                            $result = $bot->replyMessage($event['source']['userId'], $textMessageBuilder);
                          }else{
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
-                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                            $result = $bot->replyMessage($event['source']['userId'], $textMessageBuilder);
                         }
 
                       
@@ -105,7 +108,7 @@
                         $profile = $res->getJSONDecodedBody();
                         // save user data
                         $welcomeMsg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
-                        $welcomeMsg2 = "Masukan Jadwal hari ini..?";
+                        $welcomeMsg2 = "Masukan Jadwal hari ini : ";
 
                         $packageId = 2;
                         $stickerId = 22;
