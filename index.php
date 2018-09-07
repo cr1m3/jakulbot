@@ -17,18 +17,18 @@
     {
       echo "JADKULBOT";
 
-              // init database
-              $host = $_ENV['DBHOST'];
-              $dbname = $_ENV['DBNAME'];
-              $dbuser = $_ENV['DBUSER'];
-              $dbpass = $_ENV['DBPASS'];
-              $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass");
-              // or die ("Could not connect to server\n");
-              if($dbconn){
-                  echo "codetr konek";
-              }else{
-                  echo "tidak konek";
-              }
+        // init database
+        $host = $_ENV['DBHOST'];
+        $dbname = $_ENV['DBNAME'];
+        $dbuser = $_ENV['DBUSER'];
+        $dbpass = $_ENV['DBPASS'];
+        $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
+        or die ("Could not connect to server\n");
+
+      $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = SENIN AND step=1 LIMIT 1");
+      $matku = pg_fetch_object($queryMatkul);
+
+      echo $matku->matkul;
     });
      
     // buat route untuk webhook
@@ -39,15 +39,9 @@
         // $dbname = $_ENV['DBNAME'];
         // $dbuser = $_ENV['DBUSER'];
         // $dbpass = $_ENV['DBPASS'];
-        // $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass");
-        // // or die ("Could not connect to server\n");
-        // if($dbconn){
-        //     echo "codetr konek";
-        // }else{
-        //     echo "tidak konek";
-        // }
+        // $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
+        // or die ("Could not connect to server\n");
 
-        // tblmatkul
         // parameter hari,jurusan,jenjang,kelompok
 
         // get request body and line signature header
@@ -79,9 +73,21 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
+
+                        // ambil data matkul
+                        // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event['source']['userId']."' AND step=1 LIMIT 1");
+                        // $matku = pg_fetch_object($queryMatkul);
+
+                        // $matku->matkul;
+
+
                         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello tanwir');
                         $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+
+                        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($balas);
+						$result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder);
                          
+
                      return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
                     }
                 }
