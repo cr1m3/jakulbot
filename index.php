@@ -70,12 +70,12 @@
                             $matku = pg_fetch_object($queryMatkul);
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
                                 "HARI : ".$matku->hari.",
-                                \n JURUSAN : ".$matku->jurusan.",
-                                \n JENJANG : ".$matku->jenjang.",
-                                \n RUANG : ".$matku->ruang.",
-                                \n WAKTU : ".$matku->waktu.",
-                                \n KELOMPOK : ".$matku->kelompok.",
-                                DOSEN : ".$matku->dosen
+                                \n JURUSAN : ".$matku->jurusan."
+                                \n JENJANG : ".$matku->jenjang."
+                                \n RUANG : ".$matku->ruang."
+                                \n WAKTU : ".$matku->waktu."
+                                \n KELOMPOK : ".$matku->kelompok."
+                                \n DOSEN : ".$matku->dosen
                             );
                             $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                          }else{
