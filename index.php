@@ -8,13 +8,6 @@
     $dotenv = new Dotenv\Dotenv(__DIR__);
     $dotenv->load();
 
-    // set false for production
-    // $pass_signature = true;
-     
-    // inisiasi objek bot
-    // $httpClient = new CurlHTTPClient($_ENV['CHANNEL_ACCESS_TOKEN']);
-    // $bot = new LINEBot($httpClient, ['channelSecret' => $_ENV['CHANNEL_SECRET']]);
-     
     $configs =  ['settings' => ['displayErrorDetails' => true],];
     
     $app = new Slim\App($configs);
@@ -39,7 +32,6 @@
 
         // get request body and line signature header
         $body      = file_get_contents('php://input');
-        // $signature = isset($_SERVER['HTTP_X_LINE_SIGNATURE']) ? $_SERVER['HTTP_X_LINE_SIGNATURE'] : '';
         $signature = $_SERVER['HTTP_X_LINE_SIGNATURE'];
 
         // log body and signature
@@ -59,7 +51,6 @@
         $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($_ENV['CHANNEL_ACCESS_TOKEN']);
         $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $_ENV['CHANNEL_SECRET']]);
     
-        // kode aplikasi nanti disini
         $data = json_decode($body, true);
         if(is_array($data['events'])){
             foreach ($data['events'] as $event)
@@ -76,7 +67,6 @@
                 }
 
 
-
                 // add friend follow
                 if($event['type'] == 'follow')
                 {
@@ -86,7 +76,7 @@
                         $profile = $res->getJSONDecodedBody();
                         // save user data
                         $welcomeMsg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
-                        $welcomeMsg2 = "Masukan Jadwal hari ini ?";
+                        $welcomeMsg2 = "Masukan Jadwal hari ini..?";
 
                         $packageId = 2;
                         $stickerId = 22;
