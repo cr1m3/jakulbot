@@ -68,6 +68,39 @@
                      return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
                     }
                 }
+
+
+
+                // add friend follow
+                if($event['type'] == 'follow')
+                {
+                    $res = $bot->getProfile($event['source']['userId']);
+                    if ($res->isSucceeded())
+                    {
+                        $profile = $res->getJSONDecodedBody();
+                        // save user data
+                        $welcomeMsg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
+                        $welcomeMsg2 = "Silahkan Masukan pencarian berdasarkan jurusan dan hari";
+
+                        $packageId = 2;
+                        $stickerId = 22;
+                        $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
+                        $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($welcomeMsg1);
+                        $textMessageBuilder2 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($welcomeMsg2);
+                        $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
+                        $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
+                        $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
+
+                        // User yang baru jadi teman ke database
+                        $sqlSaveUser = "INSERT INTO pengguna (user_id, display_name) VALUES ('".$profile['userId']."', '".$profile['displayName']."') ";
+                        $sqlSaveUser .= "ON CONFLICT (user_id) DO UPDATE SET ";
+                        $sqlSaveUser .= "display_name = '".$profile['displayName']."'";
+                        pg_query($dbconn, $sqlSaveUser) or die("Cannot execute query: $sqlSaveUser\n");
+
+                        return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                    }
+                }
+                // end friend follow
             }
         }
      
