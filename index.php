@@ -61,9 +61,8 @@
                         // ambil data matkul
                         // parameter hari/jurusan/jenjang
                         $inputMatkul = strtoupper($event['message']['text']);
-                        $data = explode("/",$inputan);
-                        echo $data[0];
-
+                        $data = explode("/",$inputMatkul);
+ 
                          $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$data[0]."' AND jurusan = '".$data[1]."' AND jenjang = '".$data[3]."'");
                          $matkuCount = pg_num_rows($queryMatkul);
 
