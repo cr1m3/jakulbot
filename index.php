@@ -17,36 +17,34 @@
     {
     //   echo "JADKULBOT";
 
-        $host = $_ENV['DBHOST'];
-        $dbname = $_ENV['DBNAME'];
-        $dbuser = $_ENV['DBUSER'];
-        $dbpass = $_ENV['DBPASS'];
-        $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
-        or die ("Could not connect to server\n");
+    //     $host = $_ENV['DBHOST'];
+    //     $dbname = $_ENV['DBNAME'];
+    //     $dbuser = $_ENV['DBUSER'];
+    //     $dbpass = $_ENV['DBPASS'];
+    //     $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
+    //     or die ("Could not connect to server\n");
 
-      $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SEIN'");
-      $matku = pg_fetch_object($queryMatkul);
-      $matkuCount = pg_num_rows($queryMatkul);
+    //   $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SEIN'");
+    //   $matku = pg_fetch_object($queryMatkul);
+    //   $matkuCount = pg_num_rows($queryMatkul);
 
-      if($matkuCount > 0){
-         echo "benar";
-      }else{
-          echo "smalah";
-      }
+    //   if($matkuCount > 0){
+    //      echo "benar";
+    //   }else{
+    //       echo "smalah";
+    //   }
     });
      
     // buat route untuk webhook
     $app->post('/webhook', function ($request, $response)
     {
         // // init database
-        // $host = $_ENV['DBHOST'];
-        // $dbname = $_ENV['DBNAME'];
-        // $dbuser = $_ENV['DBUSER'];
-        // $dbpass = $_ENV['DBPASS'];
-        // $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
-        // or die ("Could not connect to server\n");
-
-        // parameter hari,jurusan,jenjang,kelompok
+        $host = $_ENV['DBHOST'];
+        $dbname = $_ENV['DBNAME'];
+        $dbuser = $_ENV['DBUSER'];
+        $dbpass = $_ENV['DBPASS'];
+        $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
+        or die ("Could not connect to server\n");
 
         // get request body and line signature header
         $body      = file_get_contents('php://input');
@@ -78,14 +76,17 @@
                     if($event['message']['type'] == 'text')
                     {
                          // ambil data matkul
-                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".strtoupper($event['message']['text'])."'");
-                         $matku = pg_fetch_object($queryMatkul);
+                                 // parameter hari,jurusan,jenjang,kelompok
 
-                        if(($matku->no) > 0){
+                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = ".strtoupper($event['message']['text']));
+                         $matkuCount = pg_num_rows($queryMatkul);
+
+                         if($matkuCount > 0){
+                            $matku = pg_fetch_object($queryMatkul);
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($matku->matkul);
-                        }else{
+                         }else{
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
-                        }
+                         }
 
                         $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                      return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
