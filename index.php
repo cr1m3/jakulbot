@@ -26,8 +26,9 @@
 
       $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN'");
       $matku = pg_fetch_object($queryMatkul);
+      $matkuCount = pg_num_rows($queryMatkul);
 
-      if(!empty($matkul->no)){
+      if($matkuCount > 0){
          echo "benar";
       }else{
           echo "smalah";
