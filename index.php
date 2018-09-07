@@ -19,7 +19,11 @@
 
     $inputan = "SENIN/RPL/S1TI";
 
-    print_r(explode("/",$inputan));
+   $data = explode("/",$inputan);
+
+   echo $data[0];
+
+
 
     //     $host = $_ENV['DBHOST'];
     //     $dbname = $_ENV['DBNAME'];
