@@ -18,6 +18,10 @@
 
     $channel_access_token = $_ENV['CHANNEL_ACCESS_TOKEN'];
     $channel_secret = $_ENV['CHANNEL_SECRET'];
+
+    // load config
+    $dotenv = new Dotenv\Dotenv(__DIR__);
+    $dotenv->load();
      
     // inisiasi objek bot
     $httpClient = new CurlHTTPClient($channel_access_token);
