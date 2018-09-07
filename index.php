@@ -21,14 +21,16 @@
     // buat route untuk webhook
     $app->post('/webhook', function ($request, $response)
     {
-
         // init database
-        // $host = $_ENV['DBHOST'];
-        // $dbname = $_ENV['DBNAME'];
-        // $dbuser = $_ENV['DBUSER'];
-        // $dbpass = $_ENV['DBPASS'];
-        // $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
-        // or die ("Could not connect to server\n");
+        $host = $_ENV['DBHOST'];
+        $dbname = $_ENV['DBNAME'];
+        $dbuser = $_ENV['DBUSER'];
+        $dbpass = $_ENV['DBPASS'];
+        $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
+        or die ("Could not connect to server\n");
+
+        // tblmatkul
+        // parameter hari,jurusan,jenjang,kelompok
 
         // get request body and line signature header
         $body      = file_get_contents('php://input');
