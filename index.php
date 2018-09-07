@@ -16,20 +16,10 @@
     // set false for production
     $pass_signature = true;
      
-    // set LINE channel_access_token and channel_secret
-    // $channel_access_token = "N8VNZFIdSSkMiX3okdv9dmtjpj8OAdw4yXX0QGo7mRYzMZxgxRYgU0jXiKRL33PAwKJt3IgxpdSTVsLF3Lh6LNnbtIvxtd5+f6FDiKDKsI/FpQFePni6gYvieFnTGA/ZLV5Ae+vc/m9gfvgEAiQBzQdB04t89/1O/w1cDnyilFU=";
-    // $channel_secret = "15bd07d77917a3f8454746daef9d4eb7";
-
-    $channel_access_token = $_ENV['CHANNEL_ACCESS_TOKEN'];
-    $channel_secret = $_ENV['CHANNEL_SECRET'];
-
-
-     
     // inisiasi objek bot
-    $httpClient = new CurlHTTPClient($channel_access_token);
-    $bot = new LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+    $httpClient = new CurlHTTPClient($_ENV['CHANNEL_ACCESS_TOKEN']);
+    $bot = new LINEBot($httpClient, ['channelSecret' => $_ENV['CHANNEL_SECRET']]);
      
-
     $configs =  ['settings' => ['displayErrorDetails' => true],];
     
     $app = new Slim\App($configs);
@@ -72,7 +62,7 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        $textMessageBuilder = new TextMessageBuilder('ini pesan balasan');
+                        $textMessageBuilder = new TextMessageBuilder('hello tanwir');
                         $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                          
                      return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
