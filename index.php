@@ -4,9 +4,6 @@
      
     use \LINE\LINEBot;
     use \LINE\LINEBot\HTTPClient\CurlHTTPClient;
-    use \LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
-    use \LINE\LINEBot\MessageBuilder\TextMessageBuilder;
-    use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
     use \LINE\LINEBot\SignatureValidator as SignatureValidator;
     
     // load config
@@ -31,7 +28,7 @@
     });
      
     // buat route untuk webhook
-    $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature)
+    $app->post('/webhook', function ($request, $response)
     {
         // get request body and line signature header
         $body      = file_get_contents('php://input');
@@ -39,19 +36,6 @@
      
         // log body and signature
         file_put_contents('php://stderr', 'Body: '.$body);
-     
-        if($pass_signature === false)
-        {
-            // is LINE_SIGNATURE exists in request header?
-            if(empty($signature)){
-                return $response->withStatus(400, 'Signature not set');
-            }
-     
-            // is this request comes from LINE?
-            if(! SignatureValidator::validateSignature($body, $channel_secret, $signature)){
-                return $response->withStatus(400, 'Invalid signature');
-            }
-        }
     
         // kode aplikasi nanti disini
         $data = json_decode($body, true);
@@ -62,7 +46,7 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        $textMessageBuilder = new TextMessageBuilder('hello tanwir');
+                        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello tanwir');
                         $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                          
                      return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
@@ -80,7 +64,7 @@
                         $profile = $res->getJSONDecodedBody();
                         // save user data
                         $welcomeMsg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
-                        $welcomeMsg2 = "Silahkan Masukan pencarian berdasarkan jurusan dan hari";
+                        $welcomeMsg2 = "Masukan Jadwal hari ini ?";
 
                         $packageId = 2;
                         $stickerId = 22;
