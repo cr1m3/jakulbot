@@ -27,7 +27,11 @@
       $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN'");
       $matku = pg_fetch_object($queryMatkul);
 
-      echo "TEST".$matkul->no;
+      if(!empty($matkul->no)){
+         echo "benar";
+      }else{
+          echo "smalah";
+      }
     });
      
     // buat route untuk webhook
