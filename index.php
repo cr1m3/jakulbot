@@ -24,7 +24,7 @@
         $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
         or die ("Could not connect to server\n");
 
-      $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN'");
+      $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SEIN'");
       $matku = pg_fetch_object($queryMatkul);
       $matkuCount = pg_num_rows($queryMatkul);
 
