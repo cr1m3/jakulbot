@@ -15,32 +15,7 @@
     // buat route untuk url homepage
     $app->get('/', function($req, $res)
     {
-    //   echo "JADKULBOT";
-
-    $inputan = "SENIN/RPL/S1TI";
-
-   $data = explode("/",$inputan);
-
-   echo $data[0];
-
-
-
-    //     $host = $_ENV['DBHOST'];
-    //     $dbname = $_ENV['DBNAME'];
-    //     $dbuser = $_ENV['DBUSER'];
-    //     $dbpass = $_ENV['DBPASS'];
-    //     $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
-    //     or die ("Could not connect to server\n");
-
-    //   $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SEIN'");
-    //   $matku = pg_fetch_object($queryMatkul);
-    //   $matkuCount = pg_num_rows($queryMatkul);
-
-    //   if($matkuCount > 0){
-    //      echo "benar";
-    //   }else{
-    //       echo "smalah";
-    //   }
+      echo "JADKULBOT";
     });
      
     // buat route untuk webhook
@@ -83,18 +58,26 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                         // ambil data matkul
-                        // parameter hari,jurusan,jenjang
+                        // ambil data matkul
+                        // parameter hari/jurusan/jenjang
+                        $inputMatkul = strtoupper($event['message']['text']);
+                        $data = explode("/",$inputan);
+                        echo $data[0];
 
-                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".strtoupper($event['message']['text'])."'");
+                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$data[0]."' AND jurusan = '".$data[1]."' AND jenjang = '".$data[3]."'");
                          $matkuCount = pg_num_rows($queryMatkul);
-
-                         $Msg3 = "Masukan Jurusan ex:(RPL/MULTIMEDIA/JARINGAN/DKV) : ";
-                         $Msg4 = "Masukan Jenjang ex:(S1TI/D3TI/D3MI) : ";
 
                          if($matkuCount > 0){
                             $matku = pg_fetch_object($queryMatkul);
-                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($matku->matkul);
+                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
+                                "HARI : ".$matku->hari."\n
+                                JURUSAN : ".$matku->jurusan."\n
+                                JENJANG : ".$matku->jenjang."\n
+                                RUANG : ".$matku->ruang."\n
+                                WAKTU : ".$matku->waktu."\n
+                                KELOMPOK : ".$matku->kelompok."\n
+                                DOSEN : ".$matku->dosen."\n"
+                            );
                             $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                          }else{
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
@@ -118,9 +101,6 @@
                         $welcomeMsg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
                         $welcomeMsg2 = "Masukan HARI/JURUSAN/JENJANG ex:(SENIN/RPL/S1TI) : ";
 
-
-                        // $inputan = explode('/');
-
                         $packageId = 2;
                         $stickerId = 22;
                         $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
@@ -130,43 +110,12 @@
                         $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
                         $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
 
-                        // User yang baru jadi teman ke database
-                        // $sqlSaveUser = "INSERT INTO pengguna (user_id, display_name) VALUES ('".$profile['userId']."', '".$profile['displayName']."') ";
-                        // $sqlSaveUser .= "ON CONFLICT (user_id) DO UPDATE SET ";
-                        // $sqlSaveUser .= "display_name = '".$profile['displayName']."'";
-                        // pg_query($dbconn, $sqlSaveUser) or die("Cannot execute query: $sqlSaveUser\n");
-
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
                 }
                 // end friend follow
             }
         }
-     
     });
-    
-    
-    // $app->get('/pushmessage', function($req, $res) use ($bot)
-    // {
-    //     // send push message to user
-    //     $userId = 'U3bf29c14b2605b75c39e0728375756b9';
-    //     $textMessageBuilder = new TextMessageBuilder('Halo, ini pesan push');
-    //     $result = $bot->pushMessage($userId, $textMessageBuilder);
-       
-    //     return $res->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
-    // });
-    
-    // $app->get('/content/{messageId}', function($req, $res) use ($bot)
-    // {
-    //     // get message content
-    //     $route      = $req->getAttribute('route');
-    //     $messageId = $route->getArgument('messageId');
-    //     $result = $bot->getMessageContent($messageId);
-     
-    //     // set response
-    //     $res->write($result->getRawBody());
-     
-    //     return $res->withHeader('Content-Type', $result->getHeader('Content-Type'));
-    // });
-     
+         
 $app->run();
