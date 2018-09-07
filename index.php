@@ -13,9 +13,8 @@
     $pass_signature = true;
      
     // set LINE channel_access_token and channel_secret
-    $channel_access_token = "tvDQzYOtJ9se1Ys01S0qfF5MAPnyP5DjmkHnGiS1BNVIRhc0GEqe04soOcbrZbsdwKJt3IgxpdSTVsLF3Lh6LNnbtIvxtd5+f6FDiKDKsI9614mZY2rxu3I1j9yDVLXoxstjZPLa49m2pRuzTAWxhwdB04t89/1O/w1cDnyilFU=";
+    $channel_access_token = "N8VNZFIdSSkMiX3okdv9dmtjpj8OAdw4yXX0QGo7mRYzMZxgxRYgU0jXiKRL33PAwKJt3IgxpdSTVsLF3Lh6LNnbtIvxtd5+f6FDiKDKsI/FpQFePni6gYvieFnTGA/ZLV5Ae+vc/m9gfvgEAiQBzQdB04t89/1O/w1cDnyilFU=";
     $channel_secret = "15bd07d77917a3f8454746daef9d4eb7";
-     
      
     // inisiasi objek bot
     $httpClient = new CurlHTTPClient($channel_access_token);
@@ -69,9 +68,9 @@
                         // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
      
                         $textMessageBuilder = new TextMessageBuilder('ini pesan balasan');
-                        $result = $bot->replyMessage($replyToken, $textMessageBuilder);
+                        $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                          
-                            return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
+                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
                     }
                 }
             }
@@ -80,27 +79,27 @@
     });
     
     
-    $app->get('/pushmessage', function($req, $res) use ($bot)
-    {
-        // send push message to user
-        $userId = 'U3bf29c14b2605b75c39e0728375756b9';
-        $textMessageBuilder = new TextMessageBuilder('Halo, ini pesan push');
-        $result = $bot->pushMessage($userId, $textMessageBuilder);
+    // $app->get('/pushmessage', function($req, $res) use ($bot)
+    // {
+    //     // send push message to user
+    //     $userId = 'U3bf29c14b2605b75c39e0728375756b9';
+    //     $textMessageBuilder = new TextMessageBuilder('Halo, ini pesan push');
+    //     $result = $bot->pushMessage($userId, $textMessageBuilder);
        
-        return $res->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
-    });
+    //     return $res->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
+    // });
     
-    $app->get('/content/{messageId}', function($req, $res) use ($bot)
-    {
-        // get message content
-        $route      = $req->getAttribute('route');
-        $messageId = $route->getArgument('messageId');
-        $result = $bot->getMessageContent($messageId);
+    // $app->get('/content/{messageId}', function($req, $res) use ($bot)
+    // {
+    //     // get message content
+    //     $route      = $req->getAttribute('route');
+    //     $messageId = $route->getArgument('messageId');
+    //     $result = $bot->getMessageContent($messageId);
      
-        // set response
-        $res->write($result->getRawBody());
+    //     // set response
+    //     $res->write($result->getRawBody());
      
-        return $res->withHeader('Content-Type', $result->getHeader('Content-Type'));
-    });
+    //     return $res->withHeader('Content-Type', $result->getHeader('Content-Type'));
+    // });
      
 $app->run();
