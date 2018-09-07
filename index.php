@@ -72,7 +72,7 @@
                         $result = $bot->replyMessage($replyToken, $textMessageBuilder);
                          
                             return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
-                        }
+                    }
                 }
             }
         }
