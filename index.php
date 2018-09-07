@@ -84,11 +84,13 @@
                          if($matkuCount > 0){
                             $matku = pg_fetch_object($queryMatkul);
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($matku->matkul);
+                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                          }else{
                             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
-                         }
+                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                        }
 
-                        $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                      
                      return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
                     }
                 }
