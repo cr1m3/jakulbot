@@ -78,7 +78,7 @@
                          // ambil data matkul
                                  // parameter hari,jurusan,jenjang,kelompok
 
-                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = ".strtoupper($event['message']['text']));
+                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".strtoupper($event['message']['text'])."'");
                          $matkuCount = pg_num_rows($queryMatkul);
 
                          if($matkuCount > 0){
