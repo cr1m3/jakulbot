@@ -26,8 +26,8 @@
         $dbname = $_ENV['DBNAME'];
         $dbuser = $_ENV['DBUSER'];
         $dbpass = $_ENV['DBPASS'];
-        $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
-        or die ("Could not connect to server\n");
+        $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass");
+        // or die ("Could not connect to server\n");
         if($dbconn){
             echo "codetr konek";
         }else{
