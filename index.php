@@ -98,7 +98,7 @@
                         $profile = $res->getJSONDecodedBody();
                         // save user data
                         $welcomeMsg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
-                        $welcomeMsg2 = "Masukan HARI/JURUSAN/JENJANG ex:(SENIN/RPL/S1TI) : ";
+                        $welcomeMsg2 = "Masukan pencarian \n HARI/JURUSAN/JENJANG \n ex:(SENIN/RPL/S1TI) : ";
 
                         $packageId = 2;
                         $stickerId = 22;
