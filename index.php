@@ -28,6 +28,11 @@
         $dbpass = $_ENV['DBPASS'];
         $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
         or die ("Could not connect to server\n");
+        if($dbconn){
+            echo "codetr konek";
+        }else{
+            echo "tidak konek";
+        }
 
         // tblmatkul
         // parameter hari,jurusan,jenjang,kelompok
