@@ -92,10 +92,10 @@
                         $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
 
                         // User yang baru jadi teman ke database
-                        $sqlSaveUser = "INSERT INTO pengguna (user_id, display_name) VALUES ('".$profile['userId']."', '".$profile['displayName']."') ";
-                        $sqlSaveUser .= "ON CONFLICT (user_id) DO UPDATE SET ";
-                        $sqlSaveUser .= "display_name = '".$profile['displayName']."'";
-                        pg_query($dbconn, $sqlSaveUser) or die("Cannot execute query: $sqlSaveUser\n");
+                        // $sqlSaveUser = "INSERT INTO pengguna (user_id, display_name) VALUES ('".$profile['userId']."', '".$profile['displayName']."') ";
+                        // $sqlSaveUser .= "ON CONFLICT (user_id) DO UPDATE SET ";
+                        // $sqlSaveUser .= "display_name = '".$profile['displayName']."'";
+                        // pg_query($dbconn, $sqlSaveUser) or die("Cannot execute query: $sqlSaveUser\n");
 
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
