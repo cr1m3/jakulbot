@@ -2,8 +2,6 @@
 
     require __DIR__ . '/vendor/autoload.php';
      
-    use \LINE\LINEBot;
-    use \LINE\LINEBot\HTTPClient\CurlHTTPClient;
     use \LINE\LINEBot\SignatureValidator as SignatureValidator;
     
     // load config
@@ -11,11 +9,11 @@
     $dotenv->load();
 
     // set false for production
-    $pass_signature = true;
+    // $pass_signature = true;
      
     // inisiasi objek bot
-    $httpClient = new CurlHTTPClient($_ENV['CHANNEL_ACCESS_TOKEN']);
-    $bot = new LINEBot($httpClient, ['channelSecret' => $_ENV['CHANNEL_SECRET']]);
+    // $httpClient = new CurlHTTPClient($_ENV['CHANNEL_ACCESS_TOKEN']);
+    // $bot = new LINEBot($httpClient, ['channelSecret' => $_ENV['CHANNEL_SECRET']]);
      
     $configs =  ['settings' => ['displayErrorDetails' => true],];
     
@@ -30,12 +28,36 @@
     // buat route untuk webhook
     $app->post('/webhook', function ($request, $response)
     {
+
+        // init database
+        // $host = $_ENV['DBHOST'];
+        // $dbname = $_ENV['DBNAME'];
+        // $dbuser = $_ENV['DBUSER'];
+        // $dbpass = $_ENV['DBPASS'];
+        // $dbconn = pg_connect("host=$host port=5432 dbname=$dbname user=$dbuser password=$dbpass")
+        // or die ("Could not connect to server\n");
+
         // get request body and line signature header
         $body      = file_get_contents('php://input');
-        $signature = isset($_SERVER['HTTP_X_LINE_SIGNATURE']) ? $_SERVER['HTTP_X_LINE_SIGNATURE'] : '';
-     
+        // $signature = isset($_SERVER['HTTP_X_LINE_SIGNATURE']) ? $_SERVER['HTTP_X_LINE_SIGNATURE'] : '';
+        $signature = $_SERVER['HTTP_X_LINE_SIGNATURE'];
+
         // log body and signature
         file_put_contents('php://stderr', 'Body: '.$body);
+
+        // is LINE_SIGNATURE exists in request header?
+        if (empty($signature)){
+            return $response->withStatus(400, 'Signature not set');
+        }
+
+        // is this request comes from LINE?
+        if($_ENV['PASS_SIGNATURE'] == false && ! SignatureValidator::validateSignature($body, $_ENV['CHANNEL_SECRET'], $signature)){
+            return $response->withStatus(400, 'Invalid signature');
+        }
+
+        // inisiasi objek bot
+        $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($_ENV['CHANNEL_ACCESS_TOKEN']);
+        $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $_ENV['CHANNEL_SECRET']]);
     
         // kode aplikasi nanti disini
         $data = json_decode($body, true);
