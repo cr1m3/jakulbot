@@ -15,9 +15,8 @@
     // buat route untuk url homepage
     $app->get('/', function($req, $res)
     {
-      echo "JADKULBOT";
+    //   echo "JADKULBOT";
 
-        // init database
         $host = $_ENV['DBHOST'];
         $dbname = $_ENV['DBNAME'];
         $dbuser = $_ENV['DBUSER'];
@@ -28,7 +27,7 @@
       $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN'");
       $matku = pg_fetch_object($queryMatkul);
 
-      echo $matku->matkul;
+      echo "TEST".$matkul->no;
     });
      
     // buat route untuk webhook
@@ -73,21 +72,17 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
+                         // ambil data matkul
+                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".strtoupper($event['message']['text'])."'");
+                         $matku = pg_fetch_object($queryMatkul);
 
-                        // ambil data matkul
-                        // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event['source']['userId']."' AND step=1 LIMIT 1");
-                        // $matku = pg_fetch_object($queryMatkul);
+                        if(($matku->no) > 0){
+                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($matku->matkul);
+                        }else{
+                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
+                        }
 
-                        // $matku->matkul;
-
-
-                        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello tanwir');
                         $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-
-                        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($balas);
-						$result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder);
-                         
-
                      return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
                     }
                 }
