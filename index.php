@@ -73,17 +73,17 @@
                             
                             return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }else{
-                            $options[] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("Mulai", 'mulai');
+                            $options[] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("MULAI", 'mulai');
 
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question['text'] = "klik 'mulai' untuk melakukan pencarian";
                             $buttonTemplate = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options);
 
                             // build message
-                            $messageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                            // $messageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
 
                             // send message
-                            $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
+                            $result = $bot->pushMessage($event['source']['userId'], $buttonTemplate);
                         }
 
                         // ambil data matkul
