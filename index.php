@@ -58,7 +58,7 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        if($event['message']['type'] == 'cari'){
+                        // if($event['message']['type'] == 'cari'){
                             // actions
                             $options[] = new MessageTemplateActionBuilder("Cari", 'cari');
 
@@ -67,7 +67,7 @@
 							$question['text'] = "Klik 'cari', untuk melakukan pencarian";
 						   	$buttonTemplate = new ButtonTemplateBuilder("Cari", $question['text'], $question['image'], $options);
 
-                               
+
 
                             // $msg1 = "Masukan HARI \n ex:(SENIN) : ";
                             // $msg2 = "Pilih Jurusan : \n + RPL \n + MULTIMEDIA";
@@ -82,7 +82,7 @@
 
                             
                             return $result->getHTTPStatus() . ' ' . $result->getRawBody();
-                        }
+                        // }
 
                         // ambil data matkul
                         // parameter hari/jurusan/jenjang
