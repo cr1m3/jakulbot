@@ -59,34 +59,31 @@
                     if($event['message']['type'] == 'text')
                     {
                         if(strtoupper($event['message']['type']) == 'mulai'){
-                            // actions
-                            $options[] = new  \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("Cari", 'cari');
 
-							// prepare button template
-							$question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
-							$question['text'] = "Klik 'cari', untuk memulai jakulbot";
-						   	$buttonTemplate = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("Cari", $question['text'], $question['image'], $options);
+                            $msg1 = "Masukan HARI \n ex:(SENIN) : ";
+                            $msg2 = "Pilih Jurusan : \n + RPL \n + MULTIMEDIA";
+                            $msg3 = "Pilih Jenjang : \n + S1TI \n + D3TI";
 
-                           // build message
-						   	$messageBuilder = new  \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
-
-						   	// send message
-						   	$result = $bot->pushMessage($event['replyToken'], $messageBuilder);
-
-
-                            // $msg1 = "Masukan HARI \n ex:(SENIN) : ";
-                            // $msg2 = "Pilih Jurusan : \n + RPL \n + MULTIMEDIA";
-                            // $msg3 = "Pilih Jenjang : \n + S1TI \n + D3TI";
-
-                            // $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg1);
-                            // $textMessageBuilder2 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg2);
-                            // $textMessageBuilder3 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg3);
-                            // $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
-                            // $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
-                            // $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder3);
-
+                            $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg1);
+                            $textMessageBuilder2 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg2);
+                            $textMessageBuilder3 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg3);
+                            $result = $bot->pushMessage($event['replyToken'], $textMessageBuilder1);
+                            $result = $bot->pushMessage($event['replyToken'], $textMessageBuilder2);
+                            $result = $bot->pushMessage($event['replyToken'], $textMessageBuilder3);
                             
-                            // return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                        }else{
+                            $options[] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("Mulai", 'mulai');
+
+                            $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
+                            $question['text'] = "klik 'mulai' untuk melakukan pencarian";
+                            $buttonTemplate = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options);
+
+                            // build message
+                            $messageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+
+                            // send message
+                            $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                         }
 
                         // ambil data matkul
@@ -118,10 +115,7 @@
                     //     }
 
                     //  return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
-                    
-                    
-                    
-                    
+                        return $result->getHTTPStatus() . ' ' . $result->getRawBody();      
                     }
                 }
 
