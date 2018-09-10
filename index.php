@@ -60,13 +60,18 @@
                     {
                         // if($event['message']['type'] == 'cari'){
                             // actions
-                            $options[] = new MessageTemplateActionBuilder("Cari", 'cari');
+                            $options[] = new  \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("Cari", 'cari');
 
 							// prepare button template
 							$question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
 							$question['text'] = "Klik 'cari', untuk melakukan pencarian";
-						   	$buttonTemplate = new ButtonTemplateBuilder("Cari", $question['text'], $question['image'], $options);
+						   	$buttonTemplate = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("Cari", $question['text'], $question['image'], $options);
 
+                           // build message
+						   	$messageBuilder = new  \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+
+						   	// send message
+						   	$result = $bot->pushMessage($event['replyToken'], $messageBuilder);
 
 
                             // $msg1 = "Masukan HARI \n ex:(SENIN) : ";
@@ -81,7 +86,7 @@
                             // $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder3);
 
                             
-                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                            // return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         // }
 
                         // ambil data matkul
