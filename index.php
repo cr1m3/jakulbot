@@ -58,7 +58,7 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        // if($event['message']['type'] == 'cari'){
+                        if($event['message']['type'] == 'cari'){
                             // actions
                             $options[] = new  \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("Cari", 'cari');
 
@@ -87,7 +87,7 @@
 
                             
                             // return $result->getHTTPStatus() . ' ' . $result->getRawBody();
-                        // }
+                        }
 
                         // ambil data matkul
                         // parameter hari/jurusan/jenjang
