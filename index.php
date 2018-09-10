@@ -58,32 +58,65 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        // ambil data matkul
-                        // parameter hari/jurusan/jenjang
-                        $inputMatkul = strtoupper($event['message']['text']);
-                        $data = explode("/",$inputMatkul);
- 
-                         $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$data[0]."' AND jurusan = '".$data[1]."' AND jenjang = '".$data[2]."'");
-                         $matkuCount = pg_num_rows($queryMatkul);
+                        if($event['message']['type'] == 'cari'){
+                            // actions
+                            $options[] = new MessageTemplateActionBuilder("Cari", 'cari');
 
-                         if($matkuCount > 0){
-                            $matku = pg_fetch_object($queryMatkul);
-                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
-                                "HARI : ".$matku->hari.",
-                                \n JURUSAN : ".$matku->jurusan."
-                                \n JENJANG : ".$matku->jenjang."
-                                \n RUANG : ".$matku->ruang."
-                                \n WAKTU : ".$matku->waktu."
-                                \n KELOMPOK : ".$matku->kelompok."
-                                \n DOSEN : ".$matku->dosen
-                            );
-                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-                         }else{
-                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
-                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+							// prepare button template
+							$question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
+							$question['text'] = "Klik 'cari', untuk melakukan pencarian";
+						   	$buttonTemplate = new ButtonTemplateBuilder("Cari", $question['text'], $question['image'], $options);
+
+                               
+
+                            // $msg1 = "Masukan HARI \n ex:(SENIN) : ";
+                            // $msg2 = "Pilih Jurusan : \n + RPL \n + MULTIMEDIA";
+                            // $msg3 = "Pilih Jenjang : \n + S1TI \n + D3TI";
+
+                            // $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg1);
+                            // $textMessageBuilder2 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg2);
+                            // $textMessageBuilder3 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg3);
+                            // $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
+                            // $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
+                            // $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder3);
+
+                            
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }
 
-                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
+                        // ambil data matkul
+                        // parameter hari/jurusan/jenjang
+
+
+                    //     $inputMatkul = strtoupper($event['message']['text']);
+                    //     $data = explode("/",$inputMatkul);
+ 
+                    //      $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$data[0]."' AND jurusan = '".$data[1]."' AND jenjang = '".$data[2]."'");
+                    //      $matkuCount = pg_num_rows($queryMatkul);
+
+                    //      if($matkuCount > 0){
+                    //         $matku = pg_fetch_object($queryMatkul);
+                    //         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
+                    //             "HARI : ".$matku->hari.",
+                    //             \n JURUSAN : ".$matku->jurusan."
+                    //             \n JENJANG : ".$matku->jenjang."
+                    //             \n RUANG : ".$matku->ruang."
+                    //             \n WAKTU : ".$matku->waktu."
+                    //             \n KELOMPOK : ".$matku->kelompok."
+                    //             \n DOSEN : ".$matku->dosen
+                    //         );
+                    //         // $event['replyToken']
+                    //         $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                    //      }else{
+                    //         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
+                    //         $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                    //     }
+
+                    //  return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
+                    
+                    
+                    
+                    
                     }
                 }
 
@@ -96,24 +129,23 @@
                     {
                         $profile = $res->getJSONDecodedBody();
                         // save user data
-                        $welcomeMsg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
-                        $welcomeMsg2 = "Masukan pencarian \n HARI/JURUSAN/JENJANG \n ex:(SENIN/RPL/S1TI) : ";
+                        $msg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
 
                         $packageId = 2;
                         $stickerId = 22;
                         $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
-                        $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($welcomeMsg1);
-                        $textMessageBuilder2 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($welcomeMsg2);
+                        $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg1);
                         $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
                         $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
-                        $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
-
+    
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
                 }
                 // end friend follow
             }
         }
+
+        pg_close($dbconn);
     });
          
 $app->run();

@@ -127,7 +127,6 @@ $app->post('/', function ($request, $response)
 						// $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder);
 
 						if($event['message']['text'] == '?'){
-
 							// actions
 							$options[] = new MessageTemplateActionBuilder("Paham", '?');
 							
@@ -146,7 +145,7 @@ $app->post('/', function ($request, $response)
 							$options[] = new MessageTemplateActionBuilder("Bantuan?", '?');
 							// prepare button template
 
-							$question['image'] = "https://2.bp.blogspot.com/-YQbJVIxAKAs/WL7WocisxCI/AAAAAAAAESo/rKzNOJcbpjghysVFJplplB5ZuF7qHrHNACK4B/s1600/berbagi-lokasi-line.jpg";
+							$question['image'] = "erbagi-lokasi-line.jpg";
 							$question['text'] = "Kirimkan lokasimu saat ini untuk mencari bengkel";
 							$buttonTemplate = new ButtonTemplateBuilder("Hello!", $question['text'], $question['image'], $options);
 
