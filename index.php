@@ -127,16 +127,23 @@
                         $profile = $res->getJSONDecodedBody();
                         // save user data
                         $msg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
-                        $msg2 = "klik 'mulai' untuk melakukan pencarian";
+
+                        $options[] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("MULAI", 'mulai');
+                        $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
+                        $question['text'] = "klik 'mulai' untuk melakukan pencarian";
+                        $buttonTemplate = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options);
+                        // build message
+                        $messageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                        
 
                         $packageId = 2;
                         $stickerId = 22;
                         $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
                         $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg1);
-                        $textMessageBuilder2 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg2);
                         $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
                         $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
-                        $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
+                        // send message
+                        $result = $bot->pushMessage($event['source']['userId'], $buttonTemplate);
     
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
