@@ -56,9 +56,10 @@
             {
                 if ($event['type'] == 'message')
                 {
-                    if($event['message']['type'] == 'text')
+                    if($event['message']['type'] == 'mulai')
                     {
-                        if($event['message']['type'] == 'cari'){
+
+                        // if($event['message']['type'] == 'mulai'){
                             // actions
                             $options[] = new  \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("Cari", 'cari');
 
@@ -87,7 +88,7 @@
 
                             
                             // return $result->getHTTPStatus() . ' ' . $result->getRawBody();
-                        }
+                        // }
 
                         // ambil data matkul
                         // parameter hari/jurusan/jenjang
@@ -135,13 +136,16 @@
                         $profile = $res->getJSONDecodedBody();
                         // save user data
                         $msg1 = "Hi " . $profile['displayName'] .", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram.";
+                        $msg2 = "klik 'mulai' untuk melakukan pencarian";
 
                         $packageId = 2;
                         $stickerId = 22;
                         $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
                         $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg1);
+                        $textMessageBuilder2 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg2);
                         $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
                         $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
+                        $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder2);
     
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
