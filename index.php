@@ -81,7 +81,7 @@
                             // build message
                             $messageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             // send message
-                            $result = $bot->pushMessage($event['source']['userId'], $buttonTemplate);
+                            $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                         }
 
                         // ambil data matkul
@@ -134,16 +134,15 @@
                         $buttonTemplate = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options);
                         // build message
                         $messageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
-                        
 
                         $packageId = 2;
                         $stickerId = 22;
                         $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
                         $textMessageBuilder1 = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($msg1);
+                        // send message
                         $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
                         $result = $bot->pushMessage($event['source']['userId'], $textMessageBuilder1);
-                        // send message
-                        $result = $bot->pushMessage($event['source']['userId'], $buttonTemplate);
+                        $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
     
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
