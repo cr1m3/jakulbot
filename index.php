@@ -63,7 +63,7 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        if(strtoupper($event['message']['type']) == 'mulai'){
+                        if($event['message']['type'] == 'mulai'){
 
                             $msg1 = "Masukan HARI \n ex:(SENIN) : ";
                             $msg2 = "Pilih Jurusan : \n + RPL \n + MULTIMEDIA";
