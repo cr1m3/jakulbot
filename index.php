@@ -80,13 +80,14 @@
                         }else{
                             $options[] = new MessageTemplateActionBuilder("JADWAL KULIAH", 'mulai');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
-                            $question['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi Jadwal Kuliah STMIK";
+                            $question['text'] = "Klik 'Mulai'";
                             $buttonTemplate = new ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options);
                             
                             // build message
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             // send message
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();   
                         }
 
                         // ambil data matkul
@@ -118,7 +119,7 @@
                     //     }
 
                     //  return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus()); 
-                        return $result->getHTTPStatus() . ' ' . $result->getRawBody();      
+                          
                     }
                 }
 
