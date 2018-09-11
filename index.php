@@ -3,6 +3,11 @@
     require __DIR__ . '/vendor/autoload.php';
      
     use \LINE\LINEBot\SignatureValidator as SignatureValidator;
+    use LINE\LINEBot\TemplateActionBuilder;
+    use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
+    use \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
+    use \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
+    use LINE\LINEBot\MessageBuilder;
     
     // load config
     $dotenv = new Dotenv\Dotenv(__DIR__);
@@ -73,13 +78,13 @@
                             
                             return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }else{
-                            $options1[] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("JADWAL KULIAH", 'mulai');
+                            $options1[] = new MessageTemplateActionBuilder("JADWAL KULIAH", 'mulai');
                             $question1['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question1['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram";
-                            $buttonTemplate1 = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options1);
+                            $buttonTemplate1 = new ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options1);
                             
                             // build message
-                            $messageBuilder1 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate1);
+                            $messageBuilder1 = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate1);
                             // send message
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder1);
                         }
@@ -126,17 +131,17 @@
                     {
                         $profile = $res->getJSONDecodedBody();
                         
-                        $options[] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("JADWAL KULIAH", 'mulai');
+                        $options[] = new MessageTemplateActionBuilder("JADWAL KULIAH", 'mulai');
                         $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                         $question['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi matakuliah mahasiswa STMIK Bumigora Mataram";
-                        $buttonTemplate = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options);
+                        $buttonTemplate = new ButtonTemplateBuilder("MULAI", $question['text'], $question['image'], $options);
                         
-                        $packageId = 2;
-                        $stickerId = 22;
-                        $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
-                        $messageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                        // $packageId = 2;
+                        // $stickerId = 22;
+                        // $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
+                        $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                         // send message
-                        $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
+                        // $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
                         $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
     
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
