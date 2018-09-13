@@ -71,8 +71,8 @@
                             $buttonTemplate = new ButtonTemplateBuilder("JAKULBOT", $question['text'], $question['image'], $options);
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                             
+
                             if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
                                 $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                                 $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
@@ -81,14 +81,14 @@
                                 $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                                 $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-                                return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                                
                             }
 
 
 
 
 
-
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }else{
                             $options[] = new MessageTemplateActionBuilder("MULAI", 'mulai');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
