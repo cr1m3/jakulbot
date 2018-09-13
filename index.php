@@ -135,9 +135,6 @@
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
 
-                                session_unset();
-                                session_destroy();
-
                             }else{
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
@@ -151,6 +148,9 @@
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
 
                             }
+
+                            session_unset();
+                            session_destroy();
                         }
                         
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
