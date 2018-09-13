@@ -115,6 +115,7 @@
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $_SESSION['hari'] = $event['message']['text'];
 
+                            echo $_SESSION['hari'].'-'.$_SESSION['jurusan'].'-'.$_SESSION['jenjang'];
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_SESSION['hari']."' AND jurusan = '".$_SESSION['jurusan']."' AND jenjang = '".$_SESSION['jenjang']."'");
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             
