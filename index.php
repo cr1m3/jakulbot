@@ -63,7 +63,7 @@
                 {
                     if($event['message']['type'] == 'text')
                     {
-                        if($event['message']['type'] == "mulai"){
+                        if(strtoupper($event['message']['type']) == '?'){
 
                             $options[] = new MessageTemplateActionBuilder("RPL", 'RPL');
                             $options[] = new MessageTemplateActionBuilder("MULTIMEDIA", 'MULTIMEDIA');
@@ -75,7 +75,6 @@
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             // send message
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();   
 
 
                             // $msg1 = "Masukan HARI \n ex:(SENIN) : ";
@@ -87,26 +86,20 @@
                             // $result = $bot->pushMessage($event['replyToken'], $textMessageBuilder1);
                             // $result = $bot->pushMessage($event['replyToken'], $textMessageBuilder2);
                             // $result = $bot->pushMessage($event['replyToken'], $textMessageBuilder3);
-                            
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }else{
                            
                             $options[] = new MessageTemplateActionBuilder("MULAI", 'mulai');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi Jadwal Kuliah STMIK";
                             $buttonTemplate = new ButtonTemplateBuilder("JAKULBOT", $question['text'], $question['image'], $options);
-                            
-                            $packageId = 2;
-                            $stickerId = 22;
-                            $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
-                            // send message
-                            $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-
-
+                            
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }
 
-                        return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                        
 
                         // ambil data matkul
                         // parameter hari/jurusan/jenjang
@@ -150,7 +143,7 @@
                     {
                         $profile = $res->getJSONDecodedBody();
                         
-                        $options[] = new MessageTemplateActionBuilder("MULAI", 'mulai');
+                        $options[] = new MessageTemplateActionBuilder("MULAI", '?');
                         $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                         $question['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi Jadwal Kuliah STMIK";
                         $buttonTemplate = new ButtonTemplateBuilder("JAKULBOT", $question['text'], $question['image'], $options);
