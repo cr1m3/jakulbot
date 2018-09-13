@@ -1,9 +1,8 @@
 <?php
-
-    require __DIR__ . '/vendor/autoload.php';
-
     session_start();
-     
+    
+    require __DIR__ . '/vendor/autoload.php';
+  
     use \LINE\LINEBot\SignatureValidator as SignatureValidator;
     use LINE\LINEBot\TemplateActionBuilder;
     use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
@@ -23,7 +22,6 @@
     $app->get('/', function($req, $res)
     {
       echo "JADKULBOT";
-      echo $_SESSION["hari"].'-'.$_SESSION["jurusan"].'-'.$_SESSION["jenjang"];
     });
      
     // buat route untuk webhook
