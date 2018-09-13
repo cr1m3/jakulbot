@@ -79,7 +79,7 @@
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $_SESSION['jurusan'] = $event['message']['text'];
+                            $_SESSION["jurusan"] = $event['message']['text'];
                             
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
@@ -91,7 +91,7 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            $_SESSION['jenjang'] = $event['message']['text'];
+                            $_SESSION["jenjang"] = $event['message']['text'];
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
                             // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
@@ -113,10 +113,11 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $_SESSION['hari'] = $event['message']['text'];
+                            $_SESSION["hari"] = $event['message']['text'];
 
-                            echo $_SESSION['hari'].'-'.$_SESSION['jurusan'].'-'.$_SESSION['jenjang'];
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_SESSION['hari']."' AND jurusan = '".$_SESSION['jurusan']."' AND jenjang = '".$_SESSION['jenjang']."'");
+                            echo $_SESSION["hari"].'-'.$_SESSION["jurusan"].'-'.$_SESSION["jenjang"];
+
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_SESSION["hari"]."' AND jurusan = '".$_SESSION["jurusan"]."' AND jenjang = '".$_SESSION["jenjang"]."'");
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             
                             $matkuCount = pg_num_rows($queryMatkul);
