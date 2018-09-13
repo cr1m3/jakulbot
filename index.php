@@ -71,6 +71,8 @@
                         $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                         $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
 
+                        return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+
                         if($event['message']['type'] == 'RPL'){
 
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
@@ -80,7 +82,8 @@
                             $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-    
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+
                             if($event['message']['type'] == 'S1TI'){
                                 $options[] = new MessageTemplateActionBuilder("SENIN", 'SENIN');
                                 $options[] = new MessageTemplateActionBuilder("SELASA", 'SELASA');
@@ -95,6 +98,7 @@
                                 $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                                 // send message
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
+                                return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                             }
                                    
                         }else if($event['message']['type'] == 'MULTIMEDIA'){
@@ -131,7 +135,7 @@
                     //     }
 
                   
-                        return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                       
                     }
                 }
 
