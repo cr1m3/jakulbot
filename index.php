@@ -78,9 +78,10 @@
                             
                             return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }else{
-                            $options[] = new MessageTemplateActionBuilder("MULAI", 'mulai');
+                            $options[] = new MessageTemplateActionBuilder("RPL", 'RPL');
+                            $options[] = new MessageTemplateActionBuilder("MULTIMEDIA", 'muMULTIMEDIAlai');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
-                            $question['text'] = "Klik 'Mulai' untuk melanjutkan";
+                            $question['text'] = "Pilih Jurusan";
                             $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                             
                             // build message
