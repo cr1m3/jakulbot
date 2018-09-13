@@ -23,6 +23,7 @@
     $app->get('/', function($req, $res)
     {
       echo "JADKULBOT";
+      echo $_SESSION["hari"].'-'.$_SESSION["jurusan"].'-'.$_SESSION["jenjang"];
     });
      
     // buat route untuk webhook
@@ -67,7 +68,6 @@
                     if($event['message']['type'] == 'text')
                     {   
                         if(strtoupper($event['message']['text']) == 'MULAI'){
-                            
                             $options[] = new MessageTemplateActionBuilder("RPL", 'RPL');
                             $options[] = new MessageTemplateActionBuilder("MULTIMEDIA", 'MULTIMEDIA');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
@@ -75,7 +75,6 @@
                             $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-                        
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
@@ -114,8 +113,6 @@
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $_SESSION["hari"] = $event['message']['text'];
-
-                            echo $_SESSION["hari"].'-'.$_SESSION["jurusan"].'-'.$_SESSION["jenjang"];
 
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_SESSION["hari"]."' AND jurusan = '".$_SESSION["jurusan"]."' AND jenjang = '".$_SESSION["jenjang"]."'");
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
