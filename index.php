@@ -84,7 +84,7 @@
                         // }
 
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $JURUSAN = $event['message']['text'];
+                            $JURUSAN = "RPL";
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
@@ -95,7 +95,7 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            $JENJANG = $event['message']['text'];
+                            $JENJANG = "S1TI";
                             $options[] = new MessageTemplateActionBuilder("SENIN", 'SENIN');
                             $options[] = new MessageTemplateActionBuilder("SELASA", 'SELASA');
                             $options[] = new MessageTemplateActionBuilder("RABU", 'RABU');
@@ -112,7 +112,7 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $HARI = $event['message']['text'];
+                            $HARI = "SENIN";
                             
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI."' AND jurusan = '".$JURUSAN."' AND jenjang = '".$JENJANG."'");
                             $matkuCount = pg_num_rows($queryMatkul);
@@ -130,7 +130,7 @@
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
 
-                                
+
                             }else{
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
