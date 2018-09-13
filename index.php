@@ -1,5 +1,35 @@
 <?php
 
+    class JakulBot{
+        private $HARI;
+        private $JURUSAN;
+        private $JENJANG;
+
+        public function getHari() {
+            return $this->$HARI;
+        }
+
+        public function setHari($hari) {
+            return $this->$HARI = $hari;
+        }
+
+        public function getJurusan() {
+            return $this->$JURUSAN;
+        }
+
+        public function setJurusan($jurusan) {
+            return $this->$JURUSAN = $jurusan;
+        }
+
+        public function getJenjang() {
+            return $this->$JENJANG;
+        }
+
+        public function setJenjang($jenjang) {
+            return $this->$JENJANG = $jenjang;
+        }   
+    }
+
     require __DIR__ . '/vendor/autoload.php';
      
     use \LINE\LINEBot\SignatureValidator as SignatureValidator;
@@ -26,6 +56,7 @@
     // buat route untuk webhook
     $app->post('/webhook', function ($request, $response)
     {
+        $JakulBot = new JakulBot();
         // // init database
         $host = $_ENV['DBHOST'];
         $dbname = $_ENV['DBNAME'];
@@ -76,7 +107,8 @@
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $JURUSAN = $event['message']['text'];
+                            $JakulBot->setJurusan($event['message']['text']);
+                            
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
@@ -87,7 +119,7 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            $JENJANG = $event['message']['text'];
+                            $JakulBot->setJenjang($event['message']['text']);
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
                             // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
@@ -109,9 +141,9 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $HARI = $event['message']['text'];
+                            $JakulBot->setHari($event['message']['text']);
                             
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI."' AND jurusan = '".$JURUSAN."' AND jenjang = '".$JENJANG."'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$JakulBot->getHari()."' AND jurusan = '".$JakulBot->getJurusan()."' AND jenjang = '".$JakulBot->getJenjang()."'");
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             
                             $matkuCount = pg_num_rows($queryMatkul);
