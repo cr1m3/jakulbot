@@ -99,9 +99,9 @@
                             $options[] = new MessageTemplateActionBuilder("SENIN", 'SENIN');
                             $options[] = new MessageTemplateActionBuilder("SELASA", 'SELASA');
                             $options[] = new MessageTemplateActionBuilder("RABU", 'RABU');
-                            $options[] = new MessageTemplateActionBuilder("KAMIS", 'KAMIS');
-                            $options[] = new MessageTemplateActionBuilder("JUMAT", 'JUMAT');
-                            $options[] = new MessageTemplateActionBuilder("SABTU", 'SABTU');
+                            // $options[] = new MessageTemplateActionBuilder("KAMIS", 'KAMIS');
+                            // $options[] = new MessageTemplateActionBuilder("JUMAT", 'JUMAT');
+                            // $options[] = new MessageTemplateActionBuilder("SABTU", 'SABTU');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question['text'] = "Pilih hari anda";
                             $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
