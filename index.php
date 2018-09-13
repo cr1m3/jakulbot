@@ -143,6 +143,8 @@
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $JakulBot->setHari($event['message']['text']);
                             
+                            echo $JakulBot->getHari()."-".$JakulBot->getJurusan()."-".$JakulBot->getJenjang();
+
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$JakulBot->getHari()."' AND jurusan = '".$JakulBot->getJurusan()."' AND jenjang = '".$JakulBot->getJenjang()."'");
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             
