@@ -27,6 +27,10 @@
     $app->post('/webhook', function ($request, $response)
     {
 
+        $HARI = array();
+        $JURUSAN = array();
+        $JENJANG = array();
+
         // init database
         $host = $_ENV['DBHOST'];
         $dbname = $_ENV['DBNAME'];
@@ -58,11 +62,6 @@
     
         $data = json_decode($body, true);
         if(is_array($data['events'])){
-
-            $HARI = array();
-            $JURUSAN = array();
-            $JENJANG = array();
-
             foreach ($data['events'] as $event)
             {
                 if ($event['type'] == 'message')
@@ -81,9 +80,9 @@
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
                             // $JURUSAN = $event['message']['text'];
-                            array_push($JURUSAN,$event['message']['text']);
-                            $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
-                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+                            array_push($JURUSAN, $event['message']['text']);
+                            // $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
+                            // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
@@ -97,8 +96,8 @@
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
                             // $JENJANG = $event['message']['text'];
                             array_push($JENJANG,$event['message']['text']);
-                            $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
-                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+                            // $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
+                            // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
                             // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
