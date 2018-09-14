@@ -119,8 +119,9 @@
 
                             $queryEventData = pg_query($dbconn, "SELECT * FROM tblevent WHERE id='1'");
                             $event = pg_fetch_object($queryEventData);
-
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
+                            
+                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."'");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
