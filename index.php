@@ -114,11 +114,11 @@
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $HARI = $event['message']['text'];
+
                             $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
-                            pg_close($dbconn);
-
-                            $sqlEventData = "SELECT * FROM tblevent where id='1' LIMIT 1";
+                        
+                            $sqlEventData = "SELECT * FROM tblevent";
                             $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
                             $event = pg_fetch_object($queryEventData);
                             
