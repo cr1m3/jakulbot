@@ -116,7 +116,8 @@
                             $HARI = $event['message']['text'];
                             $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
-                            
+                            pg_close($dbconn);
+
                             $sqlEventData = "SELECT * FROM tblevent where id='1' LIMIT 1";
                             $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
                             $event = pg_fetch_object($queryEventData);
