@@ -140,7 +140,7 @@
 
                         }
 
-                        if($event['message']['text'] == "SELESAI" ){
+                        if($event['message']['text'] == "SELESAI"){
 
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI[0]."' AND jurusan = '".$JURUSAN[0]."' AND jenjang = '".$JENJANG[0]."'");
