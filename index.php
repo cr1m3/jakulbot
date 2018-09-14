@@ -72,11 +72,10 @@
                             $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-                            print_r("CODETTRT".$result);
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $_AMOUNT = $event['message']['text'];
+                            $_AMOUNT['jurusan'] = $event['message']['text'];
                             
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
@@ -88,7 +87,7 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            $JENJANG = $event['message']['text'];
+                            $_AMOUNT['jenjang'] = $event['message']['text'];
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
                             // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
@@ -110,9 +109,9 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $HARI = $event['message']['text'];
+                            $_AMOUNT['hari'] = $event['message']['text'];
 
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI."' AND jurusan = '".$JURUSAN."' AND jenjang = '".$JENJANG."'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_AMOUNT['hari']."' AND jurusan = '".$_AMOUNT['jurusan']."' AND jenjang = '".$_AMOUNT['jenjang']."'");
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             
                             $matkuCount = pg_num_rows($queryMatkul);
