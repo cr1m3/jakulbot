@@ -117,12 +117,11 @@
                             $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
                             
-                            $queryEventData = pg_query($dbconn, "SELECT * FROM tblevent WHERE id='1'");
-                            $event = pg_fetch_object($queryEventData);
+                            // $queryEventData = pg_query($dbconn, "SELECT * FROM tblevent WHERE id='1'");
+                            // $event = pg_fetch_object($queryEventData);
                             
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
-
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
@@ -137,7 +136,6 @@
                                     \n DOSEN : ".$matku->dosen
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-                                return $result->getHTTPStatus() . ' ' . $result->getRawBody();
 
                             }else{
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
