@@ -58,6 +58,11 @@
     
         $data = json_decode($body, true);
         if(is_array($data['events'])){
+
+            $HARI = array();
+            $JURUSAN = array();
+            $JENJANG = array();
+
             foreach ($data['events'] as $event)
             {
                 if ($event['type'] == 'message')
@@ -75,7 +80,8 @@
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $JURUSAN = $event['message']['text'];
+                            // $JURUSAN = $event['message']['text'];
+                            array_push($JURUSAN,$event['message']['text']);
                             $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
@@ -89,7 +95,8 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            $JENJANG = $event['message']['text'];
+                            // $JENJANG = $event['message']['text'];
+                            array_push($JENJANG,$event['message']['text']);
                             $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
@@ -113,17 +120,18 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $HARI = $event['message']['text'];
+                            // $HARI = $event['message']['text'];
+                            array_push($HARI,$event['message']['text']);
 
-                            $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
-                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+                            // $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1' UNION SELECT * FROM tblevent";
+                            // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
                         
                             // $sqlEventData = "SELECT * FROM tblevent";
                             // $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
                             // $event = pg_fetch_object($queryEventData);
                             
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI[0]."' AND jurusan = '".$JURUSAN[0]."' AND jenjang = '".$JENJANG[0]."'");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
