@@ -144,7 +144,7 @@
                             // $c = $event->jenjang;
 
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$a' AND jurusan = '$b' AND jenjang = '$c'");
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI[0]."' AND jurusan = '".$JURUSAN[0]."' AND jenjang = '".$JENJANG[0]."'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
