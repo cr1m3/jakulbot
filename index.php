@@ -27,9 +27,9 @@
     $app->post('/webhook', function ($request, $response)
     {
 
-        $HARI = array();
-        $JURUSAN = array();
-        $JENJANG = array();
+        // $HARI = array();
+        // $JURUSAN = array();
+        // $JENJANG = array();
 
         // init database
         $host = $_ENV['DBHOST'];
@@ -79,8 +79,8 @@
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            // $JURUSAN = $event['message']['text'];
-                            array_push($JURUSAN, $event['message']['text']);
+                            $JURUSAN = $event['message']['text'];
+                            // array_push($JURUSAN, $event['message']['text']);
                             // $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
                             // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
@@ -94,8 +94,8 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            // $JENJANG = $event['message']['text'];
-                            array_push($JENJANG,$event['message']['text']);
+                            $JENJANG = $event['message']['text'];
+                            // array_push($JENJANG,$event['message']['text']);
                             // $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
                             // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
@@ -119,18 +119,11 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            // $HARI = $event['message']['text'];
-                            array_push($HARI,$event['message']['text']);
-
-
-                            // $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1' UNION SELECT * FROM tblevent";
-                            // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
-                        
-                            // $sqlEventData = "SELECT * FROM tblevent";
-                            // $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
-                            // $event = pg_fetch_object($queryEventData);
-                            
-
+                            $HARI = $event['message']['text'];
+                            // array_push($HARI,$event['message']['text']);
+                            $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
+                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+                         
                             $options[] = new MessageTemplateActionBuilder("SELESAI", 'SELESAI');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question['text'] = "Klik 'SELESAI' untuk melihat hasil";
@@ -142,8 +135,12 @@
 
                         if($event['message']['text'] == "SELESAI"){
 
-                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI[0]."' AND jurusan = '".$JURUSAN[0]."' AND jenjang = '".$JENJANG[0]."'");
+                            $sqlEventData = "SELECT * FROM tblevent WHERE id='1'";
+                            $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
+                            $event = pg_fetch_object($queryEventData);
+
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
+                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI[0]."' AND jurusan = '".$JURUSAN[0]."' AND jenjang = '".$JENJANG[0]."'");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
