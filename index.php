@@ -58,11 +58,6 @@
     
         $data = json_decode($body, true);
         if(is_array($data['events'])){
-
-            $HARI = "";
-            $JURUSAN = "";
-            $JENJANG ="";
-
             foreach ($data['events'] as $event)
             {
                 if ($event['type'] == 'message')
@@ -119,12 +114,12 @@
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $HARI = $event['message']['text'];
-                            // $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
-                            // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+                            $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
+                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
                             
-                            // $sqlEventData = "SELECT * FROM tblevent where id='1' LIMIT 1";
-                            // $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
-                            // $event = pg_fetch_object($queryEventData);
+                            $sqlEventData = "SELECT * FROM tblevent where id='1' LIMIT 1";
+                            $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
+                            $event = pg_fetch_object($queryEventData);
                             
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$HARI' AND jurusan = '$JURUSAN' AND jenjang = '$JENJANG'");
