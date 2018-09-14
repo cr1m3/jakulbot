@@ -72,7 +72,7 @@
                             $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-                            echo "CODETRTTTTTTTTTT".$result;
+                            print_r("CODETTRT".$result);
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
