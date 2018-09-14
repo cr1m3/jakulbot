@@ -76,7 +76,7 @@
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
                             $JURUSAN = $event['message']['text'];
-                            $queryEvent = "INSERT INTO tblevent (jurusan) VALUES ('$JURUSAN')";
+                            $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
@@ -90,7 +90,7 @@
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
                             $JENJANG = $event['message']['text'];
-                            $queryEvent = "INSERT INTO tblevent (jenjang) VALUES ('$JENJANG')";
+                            $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
@@ -114,14 +114,14 @@
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $HARI = $event['message']['text'];
-                            $queryEvent = "INSERT INTO tblevent (jenjang) VALUES ('$HARI')";
+                            $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             $queryEventData = pg_query($dbconn, "SELECT * FROM tblevent");
                             $event = pg_fetch_object($queryEventData);
 
-                           $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$event->hari' AND jurusan = '$event->jurusan' AND jenjang = '$event->jenjang'");
-                           $matkuCount = pg_num_rows($queryMatkul);
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$event->hari' AND jurusan = '$event->jurusan' AND jenjang = '$event->jenjang'");
+                            $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
                                 $matku = pg_fetch_object($queryMatkul);
@@ -136,7 +136,7 @@
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                                 
-                                pg_query($dbconn, "DELETE FROM tblevent");
+                                pg_query($dbconn, "DELETE FROM tblevent WHERE id ='1'");
 
                             }else{
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
@@ -150,7 +150,7 @@
                                 $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                                 
-                                pg_query($dbconn, "DELETE FROM tblevent");
+                                pg_query($dbconn, "DELETE FROM tblevent WHERE id ='1'");
                             }
                         }
                         
