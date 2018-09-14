@@ -75,8 +75,10 @@
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $_AMOUNT['jurusan'] = $event['message']['text'];
-                            
+                            $JURUSAN = $event['message']['text'];
+                            $queryEvent = "INSERT INTO tblevent (jurusan) VALUES ('$JURUSAN')";
+                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
@@ -87,7 +89,9 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            $_AMOUNT['jenjang'] = $event['message']['text'];
+                            $JENJANG = $event['message']['text'];
+                            $queryEvent = "INSERT INTO tblevent (jenjang) VALUES ('$JENJANG')";
+                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
                             // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
@@ -109,12 +113,15 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $_AMOUNT['hari'] = $event['message']['text'];
+                            $HARI = $event['message']['text'];
+                            $queryEvent = "INSERT INTO tblevent (jenjang) VALUES ('$HARI')";
+                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
-                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_AMOUNT['hari']."' AND jurusan = '".$_AMOUNT['jurusan']."' AND jenjang = '".$_AMOUNT['jenjang']."'");
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
-                            
-                            $matkuCount = pg_num_rows($queryMatkul);
+                            $queryEventData = pg_query($dbconn, "SELECT * FROM tblevent");
+                            $event = pg_fetch_object($queryEventData);
+
+                           $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$event->hari' AND jurusan = '$event->jurusan' AND jenjang = '$event->jenjang'");
+                           $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
                                 $matku = pg_fetch_object($queryMatkul);
@@ -128,6 +135,8 @@
                                     \n DOSEN : ".$matku->dosen
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                                
+                                pg_query($dbconn, "DELETE FROM tblevent");
 
                             }else{
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
@@ -140,7 +149,8 @@
                                 
                                 $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-
+                                
+                                pg_query($dbconn, "DELETE FROM tblevent");
                             }
                         }
                         
