@@ -111,8 +111,8 @@
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $_AMOUNT['hari'] = $event['message']['text'];
 
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_AMOUNT['hari']."' AND jurusan = '".$_AMOUNT['jurusan']."' AND jenjang = '".$_AMOUNT['jenjang']."'");
-                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
+                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_AMOUNT['hari']."' AND jurusan = '".$_AMOUNT['jurusan']."' AND jenjang = '".$_AMOUNT['jenjang']."'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             
                             $matkuCount = pg_num_rows($queryMatkul);
 
