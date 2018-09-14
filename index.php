@@ -135,16 +135,16 @@
 
                         if($event['message']['text'] == "SELESAI"){
 
-                            // $sqlEventData = "SELECT * FROM tblevent WHERE id='1' LIMIT 1";
-                            // $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
-                            // $event = pg_fetch_object($queryEventData);
+                            $sqlEventData = "SELECT * FROM tblevent WHERE id=1 LIMIT 1";
+                            $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
+                            $event = pg_fetch_object($queryEventData);
 
-                            // $a = $event->hari;
-                            // $b = $event->jurusan;
-                            // $c = $event->jenjang;
+                            $a = $event->hari;
+                            $b = $event->jurusan;
+                            $c = $event->jenjang;
 
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$HARI' AND jurusan = '$JURUSAN' AND jenjang = '$JENJANG'");
-                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
+                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$HARI' AND jurusan = '$JURUSAN' AND jenjang = '$JENJANG'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$a' AND jurusan = '$b' AND jenjang = '$c'");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
