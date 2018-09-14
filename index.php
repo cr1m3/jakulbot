@@ -135,8 +135,6 @@
                                     \n DOSEN : ".$matku->dosen
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-                                
-                                pg_query($dbconn, "DELETE FROM tblevent WHERE id ='1'");
 
                             }else{
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
@@ -150,7 +148,6 @@
                                 $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                                 
-                                pg_query($dbconn, "DELETE FROM tblevent WHERE id ='1'");
                             }
                         }
                         
