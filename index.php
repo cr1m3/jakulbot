@@ -136,11 +136,11 @@
                                     \n KELOMPOK : ".$matku->kelompok."
                                     \n DOSEN : ".$matku->dosen
                                 );
-                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                                $result = $bot->replyMessage($event['source']['userId'], $textMessageBuilder);
 
                             }else{
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
-                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                                $result = $bot->replyMessage($event['source']['userId'], $textMessageBuilder);
 
                                 $options[] = new MessageTemplateActionBuilder("MULAI", 'MULAI');
                                 $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
