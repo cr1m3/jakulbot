@@ -81,8 +81,8 @@
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
                             $JURUSAN = $event['message']['text'];
                             // array_push($JURUSAN, $event['message']['text']);
-                            // $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
-                            // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+                            $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
+                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
@@ -96,8 +96,8 @@
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
                             $JENJANG = $event['message']['text'];
                             // array_push($JENJANG,$event['message']['text']);
-                            // $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
-                            // pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
+                            $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
+                            pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
                             // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
@@ -135,7 +135,7 @@
 
                         if($event['message']['text'] == "SELESAI"){
 
-                            $sqlEventData = "SELECT * FROM tblevent WHERE id='1'";
+                            $sqlEventData = "SELECT * FROM tblevent WHERE id='1' LIMIT 1";
                             $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
                             $event = pg_fetch_object($queryEventData);
 
