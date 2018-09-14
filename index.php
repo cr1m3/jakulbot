@@ -143,14 +143,14 @@
                             // $b = $event->jurusan;
                             // $c = $event->jenjang;
 
-                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$a' AND jurusan = '$b' AND jenjang = '$c'");
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$HARI' AND jurusan = '$JURUSAN' AND jenjang = '$JENJANG'");
+                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
                                 $matku = pg_fetch_object($queryMatkul);
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
-                                    "HARI : ".$matku->hari.",
+                                    "HARI : ".$matku->hari."
                                     \n JURUSAN : ".$matku->jurusan."
                                     \n JENJANG : ".$matku->jenjang."
                                     \n RUANG : ".$matku->ruang."
