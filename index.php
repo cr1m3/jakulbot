@@ -26,9 +26,6 @@
     // buat route untuk webhook
     $app->post('/webhook', function ($request, $response)
     {
-        $HARI = "";
-        $JURUSAN = "";
-        $JENJANG = "";
 
         // init database
         $host = $_ENV['DBHOST'];
@@ -75,10 +72,11 @@
                             $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
+                            echo "CODETRTTTTTTTTTT".$result;
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $JURUSAN = $event['message']['text'];
+                            $_AMOUNT = $event['message']['text'];
                             
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
