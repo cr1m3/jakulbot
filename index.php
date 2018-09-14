@@ -118,12 +118,12 @@
                             $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
                         
-                            $sqlEventData = "SELECT * FROM tblevent";
-                            $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
-                            $event = pg_fetch_object($queryEventData);
+                            // $sqlEventData = "SELECT * FROM tblevent";
+                            // $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
+                            // $event = pg_fetch_object($queryEventData);
                             
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event->hari."' AND jurusan = '".$event->jurusan."' AND jenjang = '".$event->jenjang."'");
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$HARI' AND jurusan = '$JURUSAN' AND jenjang = '$JENJANG'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
