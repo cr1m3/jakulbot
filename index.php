@@ -26,6 +26,9 @@
     // buat route untuk webhook
     $app->post('/webhook', function ($request, $response)
     {
+        $HARI = "";
+        $JURUSAN = "";
+        $JENJANG = "";
 
         // init database
         $host = $_ENV['DBHOST'];
@@ -75,7 +78,7 @@
                         }
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
-                            $_SERVER["jurusan"] = $event['message']['text'];
+                            $JURUSAN = $event['message']['text'];
                             
                             $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
                             $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
@@ -87,7 +90,7 @@
                         }
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
-                            $_SERVER["jenjang"] = $event['message']['text'];
+                            $JENJANG = $event['message']['text'];
 
                             // $MSG = "Masukan HARI ex:(SENIN)";
                             // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
@@ -109,9 +112,9 @@
                         if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $_SERVER["hari"] = $event['message']['text'];
+                            $HARI = $event['message']['text'];
 
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$_SERVER["hari"]."' AND jurusan = '".$_SERVER["jurusan"]."' AND jenjang = '".$_SERVER["jenjang"]."'");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$HARI."' AND jurusan = '".$JURUSAN."' AND jenjang = '".$JENJANG."'");
                             // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = 'SENIN' AND jurusan = 'RPL' AND jenjang = 'S1TI'");
                             
                             $matkuCount = pg_num_rows($queryMatkul);
