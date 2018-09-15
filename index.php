@@ -105,10 +105,10 @@
                             $result = $bot->pushMessage($event['source']['userId'], $textMSGBuilder);
                         }
 
-                        if($event['message']['text'] == "SENIN" || $event['message']['text'] == "SELASA" || 
-                            $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
-                            $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
-                            $HARI = $event['message']['text'];
+                        if(strtoupper($event['message']['text']) == "SENIN" || strtoupper($event['message']['text']) == "SELASA" || 
+                            strtoupper($event['message']['text']) == "RABU" || strtoupper($event['message']['text']) == "KAMIS" || 
+                            strtoupper($event['message']['text']) == "JUMAT" || strtoupper($event['message']['text']) == "SABTU"){
+                            $HARI = strtoupper($event['message']['text']);
  
                             $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
