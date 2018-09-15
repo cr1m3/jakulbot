@@ -139,6 +139,9 @@
                                     \n * DOSEN : ".$matku->dosen
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+
+                                $textMSG = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Klik 'MULAI' untuk mencari lagi");
+                                $result = $bot->replyMessage($event['replyToken'], $textMSG);
                             }
                             else{
                                 $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
