@@ -26,11 +26,6 @@
     // buat route untuk webhook
     $app->post('/webhook', function ($request, $response)
     {
-
-        // $HARI = array();
-        // $JURUSAN = array();
-        // $JENJANG = array();
-
         // init database
         $host = $_ENV['DBHOST'];
         $dbname = $_ENV['DBNAME'];
@@ -80,7 +75,6 @@
   
                         if($event['message']['text'] == "RPL" || $event['message']['text'] == "MULTIMEDIA"){
                             $JURUSAN = $event['message']['text'];
-                            // array_push($JURUSAN, $event['message']['text']);
                             $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
@@ -95,24 +89,20 @@
 
                         if($event['message']['text'] == "S1TI" || $event['message']['text'] == "D3TI"){
                             $JENJANG = $event['message']['text'];
-                            // array_push($JENJANG,$event['message']['text']);
+
                             $queryEvent = "UPDATE tblevent SET jenjang='$JENJANG' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
-                            // $MSG = "Masukan HARI ex:(SENIN)";
-                            // $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
-                            // $result = $bot->pushMessage($event['source']['userId'], $textMSGBuilder);
+                            $MSG = "Masukan HARI : 
+                                    \n ------------
+                                    \n * SENIN
+                                    \n * SELASA
+                                    \n * RABU
+                                    \n * KAMIS
+                                    \n * JUMAT
+                                    \n * SABTU";
 
-                            $options[] = new MessageTemplateActionBuilder("SENIN", 'SENIN');
-                            $options[] = new MessageTemplateActionBuilder("SELASA", 'SELASA');
-                            // $options[] = new MessageTemplateActionBuilder("RABU", 'RABU');
-                            // $options[] = new MessageTemplateActionBuilder("KAMIS", 'KAMIS');
-                            // $options[] = new MessageTemplateActionBuilder("JUMAT", 'JUMAT');
-                            // $options[] = new MessageTemplateActionBuilder("SABTU", 'SABTU');
-                            $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
-                            $question['text'] = "Pilih hari anda";
-                            $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
-                            $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                            $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                         }
 
@@ -120,7 +110,7 @@
                             $event['message']['text'] == "RABU" || $event['message']['text'] == "KAMIS" || 
                             $event['message']['text'] == "JUMAT" || $event['message']['text'] == "SABTU"){
                             $HARI = $event['message']['text'];
-                            // array_push($HARI,$event['message']['text']);
+ 
                             $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
                          
@@ -131,27 +121,31 @@
                             $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
 
+                        }else{
+                            $MSG = "Masukan HARI : 
+                            \n ------------
+                            \n * SENIN
+                            \n * SELASA
+                            \n * RABU
+                            \n * KAMIS
+                            \n * JUMAT
+                            \n * SABTU";
+
+                            $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
+                            $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                         }
 
                         if($event['message']['text'] == "SELESAI"){
 
-                            // $sqlEventData = "SELECT * FROM tblevent WHERE id='1' LIMIT 1";
-                            // $queryEventData = pg_query($dbconn, $sqlEventData) or die("Cannot execute query: $sqlEventData\n");
-                            // $event = pg_fetch_array($queryEventData);
-
-                            // $a = $event->hari;
-                            // $b = $event->jurusan;
-                            // $c = $event->jenjang;
-
-                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '".$event[0]."' AND jurusan = '".$event[1]."' AND jenjang = '".$event[2]."'");
-                            // $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = '$a' AND jurusan = '$b' AND jenjang = '$c'");
                             $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = (SELECT hari FROM tblevent) AND jurusan = (SELECT jurusan FROM tblevent) AND jenjang = (SELECT jenjang FROM tblevent)");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
                                 $matku = pg_fetch_object($queryMatkul);
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
-                                    "HARI : ".$matku->hari."
+                                    "JADWAL KULIAH 
+                                    \n ------------
+                                    \n HARI : ".$matku->hari."
                                     \n JURUSAN : ".$matku->jurusan."
                                     \n JENJANG : ".$matku->jenjang."
                                     \n RUANG : ".$matku->ruang."
@@ -160,26 +154,20 @@
                                     \n DOSEN : ".$matku->dosen
                                 );
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                            }else{
+                                $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
+                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+    
+                                $options[] = new MessageTemplateActionBuilder("MULAI", 'MULAI');
+                                $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
+                                $question['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi Jadwal Kuliah STMIK";
+                                $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                                
+                                $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                                $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
+                                
                             }
-                        }
-                        // else{
-                        //     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Pencarian tidak ditemukan harap coba lagi");
-                        //     $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-
-                        //     $options[] = new MessageTemplateActionBuilder("MULAI", 'MULAI');
-                        //     $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
-                        //     $question['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi Jadwal Kuliah STMIK";
-                        //     $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
-                            
-                        //     $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
-                        //     $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
-                            
-                        // }
-
-
-
-
-                        
+                        }                        
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
                 }
