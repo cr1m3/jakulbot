@@ -123,7 +123,7 @@
  
                         if($event['message']['text'] == "SELESAI"){
 
-                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = (SELECT hari FROM tblevent) AND jurusan = (SELECT jurusan FROM tblevent) AND jenjang = (SELECT jenjang FROM tblevent)");
+                            $queryMatkul = pg_query($dbconn, "SELECT * FROM tblmatkul WHERE hari = (SELECT hari FROM tblevent) AND jurusan = (SELECT jurusan FROM tblevent LIMIT 1) AND jenjang = (SELECT jenjang FROM tblevent) LIMIT 1");
                             $matkuCount = pg_num_rows($queryMatkul);
 
                             if($matkuCount > 0){
@@ -137,7 +137,7 @@
                                     \n * KELOMPOK : ".$matku->kelompok."
                                     \n * DOSEN : ".$matku->dosen
                                 );
-                                $result = $bot->replyMessage($event['source']['userId'], $textMessageBuilder);
+                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                             }
                             // else{
                             //     $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
