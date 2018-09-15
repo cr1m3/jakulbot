@@ -94,7 +94,6 @@
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
                             $MSG = "Masukan HARI : 
-                                    \n ------------
                                     \n * SENIN
                                     \n * SELASA
                                     \n * RABU
@@ -122,19 +121,19 @@
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
 
                         }
-                        else{
-                            $MSG = "Masukan HARI : 
-                            \n ------------
-                            \n * SENIN
-                            \n * SELASA
-                            \n * RABU
-                            \n * KAMIS
-                            \n * JUMAT
-                            \n * SABTU";
+                        // else{
+                        //     $MSG = "Masukan HARI : 
+                        //     \n ------------
+                        //     \n * SENIN
+                        //     \n * SELASA
+                        //     \n * RABU
+                        //     \n * KAMIS
+                        //     \n * JUMAT
+                        //     \n * SABTU";
 
-                            $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
-                            $result = $bot->pushMessage($event['source']['userId'], $textMSGBuilder);
-                        }
+                        //     $textMSGBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($MSG);
+                        //     $result = $bot->pushMessage($event['source']['userId'], $textMSGBuilder);
+                        // }
 
                         if($event['message']['text'] == "SELESAI"){
 
