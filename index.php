@@ -129,7 +129,8 @@
                             if($matkuCount > 0){
                                 $matku = pg_fetch_object($queryMatkul);
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
-                                    "HARI : ".$matku->hari."
+                                    "JADWAL MATAKULIAH
+                                    \n *  HARI : ".$matku->hari."
                                     \n * JURUSAN : ".$matku->jurusan."
                                     \n * JENJANG : ".$matku->jenjang."
                                     \n * RUANG : ".$matku->ruang."
@@ -137,17 +138,17 @@
                                     \n * KELOMPOK : ".$matku->kelompok."
                                     \n * DOSEN : ".$matku->dosen
                                 );
-                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                                $result = $bot->replyMessage($event['source']['userId'], $textMessageBuilder);
                             }
-                            // else{
-                            //     $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
-                            //     $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
-                            //     $question['text'] = "Jadwal untuk matakuliah belum ada";
-                            //     $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                            else{
+                                $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
+                                $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
+                                $question['text'] = "Jadwal untuk matakuliah belum ada";
+                                $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                                 
-                            //     $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
-                            //     $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);  
-                            // }
+                                $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                                $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);  
+                            }
                         }                        
                         return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                     }
