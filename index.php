@@ -129,8 +129,7 @@
                             if($matkuCount > 0){
                                 $matku = pg_fetch_object($queryMatkul);
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
-                                    "JADWAL KULIAH 
-                                    \n * HARI : ".$matku->hari."
+                                    "HARI : ".$matku->hari."
                                     \n * JURUSAN : ".$matku->jurusan."
                                     \n * JENJANG : ".$matku->jenjang."
                                     \n * RUANG : ".$matku->ruang."
