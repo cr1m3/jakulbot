@@ -139,10 +139,13 @@
                                     \n * DOSEN : ".$matku->dosen
                                 );
 
-                                $textMSG = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Klik 'MULAI' untuk mencari lagi");
-                                $result = $bot->replyMessage($event['source']['userId'], $textMSG);
-                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-
+                                $options[] = new MessageTemplateActionBuilder("MULAI", 'MULAI');
+                                $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
+                                $question['text'] = "Klik 'MULAI' untuk mencari lagi";
+                                $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                                
+                                $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                                $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);  
                             }
                             else{
                                 $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
