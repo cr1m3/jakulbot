@@ -140,8 +140,9 @@
                                 );
 
                                 $textMSG = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("Klik 'MULAI' untuk mencari lagi");
-                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                                 $result = $bot->replyMessage($event['source']['userId'], $textMSG);
+                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+
                             }
                             else{
                                 $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
