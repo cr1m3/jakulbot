@@ -131,6 +131,7 @@
                                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(
                                     "JADWAL MATAKULIAH
                                     \n *  HARI : ".$matku->hari."
+                                    \n * MATKUL : ".$matku->matkul."
                                     \n * JURUSAN : ".$matku->jurusan."
                                     \n * JENJANG : ".$matku->jenjang."
                                     \n * RUANG : ".$matku->ruang."
