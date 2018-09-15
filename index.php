@@ -138,7 +138,7 @@
                                     \n * KELOMPOK : ".$matku->kelompok."
                                     \n * DOSEN : ".$matku->dosen
                                 );
-                                $result = $bot->replyMessage($event['source']['userId'], $textMessageBuilder);
+                                $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                             }
                             else{
                                 $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
