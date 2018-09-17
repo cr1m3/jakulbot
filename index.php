@@ -2,12 +2,9 @@
 
     require __DIR__ . '/vendor/autoload.php';
   
-    use \LINE\LINEBot\SignatureValidator as SignatureValidator;
-    use LINE\LINEBot\TemplateActionBuilder;
-    use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
-    use \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
-    use \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
-    use LINE\LINEBot\MessageBuilder;
+    use LINE\LINEBot\SignatureValidator as SignatureValidator;
+    // use LINE\LINEBot\TemplateActionBuilder;
+    // use LINE\LINEBot\MessageBuilder;
     
     // load config
     $dotenv = new Dotenv\Dotenv(__DIR__);
@@ -64,12 +61,12 @@
                     if($event['message']['type'] == 'text')
                     {   
                         if(strtoupper($event['message']['text']) == 'MULAI'){
-                            $options[] = new MessageTemplateActionBuilder("RPL", 'RPL');
-                            $options[] = new MessageTemplateActionBuilder("MULTIMEDIA", 'MULTIMEDIA');
+                            $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("RPL", 'RPL');
+                            $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("MULTIMEDIA", 'MULTIMEDIA');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question['text'] = "Pilih Jurusan Anda";
-                            $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
-                            $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                            $buttonTemplate = new LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                            $messageBuilder = new LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                         }
   
@@ -78,12 +75,12 @@
                             $queryEvent = "UPDATE tblevent SET jurusan='$JURUSAN' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
 
-                            $options[] = new MessageTemplateActionBuilder("S1TI", 'S1TI');
-                            $options[] = new MessageTemplateActionBuilder("D3TI", 'D3TI');
+                            $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("S1TI", 'S1TI');
+                            $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("D3TI", 'D3TI');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question['text'] = "Pilih Jenjang Anda";
-                            $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
-                            $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                            $buttonTemplate = new LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                            $messageBuilder = new LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder); 
                         }
 
@@ -113,11 +110,11 @@
                             $queryEvent = "UPDATE tblevent SET hari='$HARI' WHERE id='1'";
                             pg_query($dbconn, $queryEvent) or die("Cannot execute query: $queryEvent\n");
                          
-                            $options[] = new MessageTemplateActionBuilder("SELESAI", 'SELESAI');
+                            $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("SELESAI", 'SELESAI');
                             $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                             $question['text'] = "Klik 'SELESAI' untuk melihat hasil";
-                            $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
-                            $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                            $buttonTemplate = new LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                            $messageBuilder = new LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                             $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
                         }
  
@@ -140,22 +137,22 @@
                                     \n * DOSEN : ".$matku->dosen
                                 );
 
-                                $options[] = new MessageTemplateActionBuilder("MULAI", 'MULAI');
+                                $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("MULAI", 'MULAI');
                                 $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                                 $question['text'] = "Klik 'MULAI' untuk mencari lagi";
-                                $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                                $buttonTemplate = new LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                                 
-                                $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                                $messageBuilder = new LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                                 $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);  
                             }
                             else{
-                                $options[] = new MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
+                                $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("CARI YANG LAIN", 'MULAI');
                                 $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                                 $question['text'] = "Jadwal untuk matakuliah belum ada";
-                                $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                                $buttonTemplate = new LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                                 
-                                $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                                $messageBuilder = new LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                                 $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);  
                             }
                         }                        
@@ -172,15 +169,15 @@
                     {
                         $profile = $res->getJSONDecodedBody();
                         
-                        $options[] = new MessageTemplateActionBuilder("MULAI", 'MULAI');
+                        $options[] = new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("MULAI", 'MULAI');
                         $question['image'] = "https://scontent-atl3-1.cdninstagram.com/vp/d028c1f665944cf64f24d03edd8818b6/5C18755A/t51.2885-15/e35/37629924_825187871202623_3854795657114025984_n.jpg";
                         $question['text'] = "Hi ".$profile['displayName'].", Selamat datang di informasi Jadwal Kuliah STMIK";
-                        $buttonTemplate = new ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
+                        $buttonTemplate = new LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("JADWAL KULIAH", $question['text'], $question['image'], $options);
                         
                         $packageId = 2;
                         $stickerId = 22;
                         $stickerMsgBuilder = new  \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId);
-                        $messageBuilder = new TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
+                        $messageBuilder = new LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Ada pesan untukmu, pastikan membukanya dengan app mobile Line ya!", $buttonTemplate);
                         // send message
                         $result = $bot->pushMessage($event['source']['userId'], $stickerMsgBuilder);
                         $result = $bot->pushMessage($event['source']['userId'], $messageBuilder);
